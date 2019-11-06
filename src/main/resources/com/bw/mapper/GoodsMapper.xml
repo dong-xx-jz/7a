@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bw.mapper.GoodsDao">
+	
+	<select id="queryAll" parameterType="map" resultType="com.bw.entity.Goods">
+		select g.*,b.bname,k.kname from tb_goods g 
+		left join tb_brand b on g.bid=b.bid 
+		left join tb_goodskind k on g.kid=k.kid 
+	</select>
+	
+	<select id="queryBrandList" resultType="com.bw.entity.Brand">
+		select * from tb_brand
+	</select>
+	
+	<select id="queryKindList" resultType="com.bw.entity.GoodsKind">
+		select * from tb_goodskind
+	</select>
+	
+	
+	<insert id="insertGoods" parameterType="com.bw.entity.Goods">
+		insert into tb_goods 
+		(gname, gnameEng, size, price, number, label, picurl, bid, kid) 
+		values 
+		(#{gname}, #{gnameEng}, #{size}, #{price}, #{number}, #{label}, #{picurl}, #{bid}, #{kid})
+	</insert>
+	
+	<delete id="deleteGoods" parameterType="string">
+		delete from tb_goods where gid in (${_parameter})
+	</delete>
+	
+	<select id="queryGoodsById" parameterType="int" resultType="com.bw.entity.Goods">
+		select g.*,b.bname,k.kname from tb_goods g 
+		left join tb_brand b on g.bid=b.bid 
+		left join tb_goodskind k on g.kid=k.kid 
+		where g.gid=#{0}
+	</select>
+	
+	<update id="updateGoods" parameterType="com.bw.entity.Goods">
+		update tb_goods set 
+		gname=#{gname}, gnameEng=#{gnameEng}, size=#{size}, price=#{price}, number=#{number}, label=#{label}, 
+		picurl=#{picurl}, bid=#{bid}, kid=#{kid} 
+		where gid=#{gid}
+	</update>
+	
+	
+</mapper>
